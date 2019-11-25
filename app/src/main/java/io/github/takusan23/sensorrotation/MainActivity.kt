@@ -91,9 +91,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     textview.text = """
 
-                    コンパス：${orientationAngles[0]}
-                    地面に近づけると＋の値：${orientationAngles[1]}
-                    右か左へ傾けると値変わる：${orientationAngles[2]}
+                    方位角（z 軸に関する回転度数）：${orientationAngles[0]}
+                    勾配（x 軸に関する回転度数）${orientationAngles[1]}
+                    回転（y 軸に関する回転度数）：${orientationAngles[2]}
 
                     端末の向きは：$yokoTate
 

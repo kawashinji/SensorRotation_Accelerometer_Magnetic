@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
     var accelerometerList = floatArrayOf()
     //磁気の値。こちらも配列になっている
     var magneticList = floatArrayOf()
+    // 線形加速度
+    var linearList = floatArrayOf(0F, 0F, 0F)
+    // G
+    var gravityList = floatArrayOf(0F, 0F, 0F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         val accelerometer = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER)
         //磁気
         val magnetic = sensorManager.getSensorList(Sensor.TYPE_MAGNETIC_FIELD)
+        // 線形加速度
+        val linear = sensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION)
+        // 線形加速度
+        val gravity = sensorManager.getSensorList(Sensor.TYPE_GRAVITY)
         //受け取る
         sensorEventListener = object : SensorEventListener {
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -51,6 +59,12 @@ class MainActivity : AppCompatActivity() {
                     Sensor.TYPE_MAGNETIC_FIELD -> {
                         //地磁気
                         magneticList = event.values.clone()
+                    }
+                    Sensor.TYPE_LINEAR_ACCELERATION -> {
+                        linearList = event.values.clone()
+                    }
+                    Sensor.TYPE_GRAVITY -> {
+                        gravityList = event.values.clone()
                     }
                 }
                 //配列に値があることを確認
@@ -94,6 +108,12 @@ class MainActivity : AppCompatActivity() {
                     方位角（z 軸に関する回転度数）：${orientationAngles[0]}
                     勾配（x 軸に関する回転度数）${orientationAngles[1]}
                     回転（y 軸に関する回転度数）：${orientationAngles[2]}
+                    x 軸方向の加速力: ${linearList[0]}
+                    y 軸方向の加速力: ${linearList[1]}
+                    z 軸方向の加速力: ${linearList[2]}
+                    x 軸方向の重力: ${gravityList[0]}
+                    y 軸方向の重力: ${gravityList[1]}
+                    z 軸方向の重力: ${gravityList[2]}
 
                     端末の向きは：$yokoTate
 
@@ -112,6 +132,17 @@ class MainActivity : AppCompatActivity() {
         sensorManager.registerListener(
             sensorEventListener,
             magnetic[0],  //配列のいっこめ。
+            SensorManager.SENSOR_DELAY_NORMAL  //更新頻度
+        )
+
+        sensorManager.registerListener(
+            sensorEventListener,
+            linear[0],  //配列のいっこめ。
+            SensorManager.SENSOR_DELAY_NORMAL  //更新頻度
+        )
+        sensorManager.registerListener(
+            sensorEventListener,
+            gravity[0],  //配列のいっこめ。
             SensorManager.SENSOR_DELAY_NORMAL  //更新頻度
         )
 
